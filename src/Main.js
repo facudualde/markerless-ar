@@ -25,7 +25,7 @@ function start(palmZ, palmX, palmY, indiceZ, indiceX, indiceY, data, hand)
         let pos = Object.conversion(data.curPinch.x, data.curPinch.y, zet);
         if( (pos[0] > obj.box3.min.x && pos[0] < obj.box3.max.x) && (pos[1] > obj.box3.min.y && pos[1] < obj.box3.max.y) && obj.go === false )
         {
-            obj.first = [indiceX - palmX, indiceY - palmY, indiceZ - palmZ]; //(originalmente estaba acá)
+            obj.first = [indiceX - palmX, indiceY - palmY, indiceZ - palmZ];
             obj.go = true;
             if(hand === "right")
                 rightHandObj = obj;
@@ -40,7 +40,7 @@ function held(palmZ, palmX, palmY, indiceZ, indiceX, indiceY, data, obj, landmar
 {
     if(obj !== null)
     {
-        obj.pos = Object.conversion(data.curPinch.x, data.curPinch.y, landmark); //data.curPinch.z
+        obj.pos = Object.conversion(data.curPinch.x, data.curPinch.y, landmark);
         
         if(obj.pos[2] < -15 || obj.pos[2] > 0)
         {
@@ -72,9 +72,9 @@ handsfree.on('finger-pinched-start-1-0', (data) => {
     let palmZ = handsfree.data.hands.landmarks[1][0].z; 
     let palmX = handsfree.data.hands.landmarks[1][0].x;
     let palmY = handsfree.data.hands.landmarks[1][0].y;
-    let indiceZ = handsfree.data.hands.landmarks[1][4].z; //8
-    let indiceX = handsfree.data.hands.landmarks[1][4].x; //8
-    let indiceY = handsfree.data.hands.landmarks[1][4].y; //8
+    let indiceZ = handsfree.data.hands.landmarks[1][4].z;
+    let indiceX = handsfree.data.hands.landmarks[1][4].x;
+    let indiceY = handsfree.data.hands.landmarks[1][4].y;
     start(palmZ, palmX, palmY, indiceZ, indiceX, indiceY, data, "right");
 });
 
@@ -82,9 +82,9 @@ handsfree.on('finger-pinched-held-1-0', (data) => {
     let palmZ = handsfree.data.hands.landmarks[1][0].z; 
     let palmX = handsfree.data.hands.landmarks[1][0].x;
     let palmY = handsfree.data.hands.landmarks[1][0].y;
-    let indiceZ = handsfree.data.hands.landmarks[1][4].z; //8
-    let indiceX = handsfree.data.hands.landmarks[1][4].x; //8
-    let indiceY = handsfree.data.hands.landmarks[1][4].y; //8
+    let indiceZ = handsfree.data.hands.landmarks[1][4].z;
+    let indiceX = handsfree.data.hands.landmarks[1][4].x;
+    let indiceY = handsfree.data.hands.landmarks[1][4].y;
     held(palmZ, palmX, palmY, indiceZ, indiceX, indiceY, data, rightHandObj, handsfree.data.hands.landmarks[1][8].z);
 });
 
