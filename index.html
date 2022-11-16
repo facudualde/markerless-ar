@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- Include Handsfree.js -->
+    <link rel="stylesheet" href="./src/handsfree/handsfree.css"/>
+    <script src="./src/handsfree/handsfree.js"></script>
+    <!--AFRAME-->
+    <script src="./src/aframe/aframe.min.js"></script>
+    <script src="./src/aframe/aframe-ar.js"></script>
+    <script src="./src/aframe/aframe-extras.min.js"></script>
+    <link rel="stylesheet" href="./styles.css"/>
+</head>
+<body style="margin: 0; overflow: hidden;">
+    <a-scene vr-mode-ui="enabled: false" renderer="logarithmicDepthBuffer: true;" embedded arjs id="scene" gltf-model="dracoDecoderPath: ./draco/; meshoptDecoderPath: https://unpkg.com/meshoptimizer@0.16.0/meshopt_decoder.js;">
+        <a-entity camera id="camera"></a-entity>
+    </a-scene>
+
+    <!--Loading screen: this part is just to have a nice animated screen while loading libraries-->
+    <div id="loader-wrapper">
+        <p id="t">Loading libraries...
+            <span id="loader">
+                <span id="loader-inner">
+                </span>
+            </span>
+        </p>
+    </div>
+    <!------------------>
+</body>
+<script type="module">
+    import Object from './src/Object.js';
+    import './src/Main.js';
+
+    new Object("object1", -1.5, 0, -6, ["./examples/Box.gltf"]);
+    const obj2 = new Object("object2", 1.5, -0.5, -6, ["./examples/duck.gltf"]);
+</script>
+
+</html>

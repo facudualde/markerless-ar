@@ -1,0 +1,46 @@
+#loader-wrapper {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: #242f3f;
+}
+
+#loader {
+    width: 10%;
+    height: 70%;
+    left: -25%;
+    top: -2%;
+    position: absolute;
+    border: 4px solid #Fff;
+    animation: loader 2s infinite ease;
+}
+#loader-inner {
+    width: 100%;
+    height: 100%;
+    background-color: #fff;
+    animation: loader-inner 2s infinite ease-in;
+}
+
+#t {
+    position: absolute;
+    color: white;
+    left: 45%;
+    top: 47.5%;
+    font-size: 1.5vw;
+}
+  
+@keyframes loader {
+    0% { transform: rotate(0deg);}
+    25% { transform: rotate(180deg);}
+    50% { transform: rotate(180deg);}
+    75% { transform: rotate(360deg);}
+    100% { transform: rotate(360deg);}
+}
+
+.hidden {
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0.2s, opacity 0.2s linear;
+}
