@@ -40,16 +40,21 @@ function held(palmX, palmY, palmZ, indexX, indexY, indexZ, data, obj, landmark)
 {
     if(obj !== null)
     {
-        obj.pos = Object.conversion(data.curPinch.x, data.curPinch.y, data.curPinch.z); //landmark
+        // --- Position ---
+        // Conversion from handsfree coordinates to aframe coordinates
+        obj.pos = Object.conversion(data.curPinch.x, data.curPinch.y, data.curPinch.z);
         
+        // Check if object's position is too far behind or too far ahead
         if(obj.pos[2] < -15 || obj.pos[2] > 0)
         {
             obj.pos[2] = -13;
             obj.pos = Object.conversion(data.curPinch.x, data.curPinch.y, 1/obj.pos[2]);
         }
+
         let p = Object.average(obj.arrayX, obj.arrayY, obj.arrayZ, obj.pos);
         obj.element.setAttribute('position', String(p[0]) + " " + String(p[1]) + " " + String(p[2]));
 
+        // --- Rotation ---
         obj.currentVector = [indexX - palmX, indexY - palmY, indexZ - palmZ];
         let startingVector = new THREE.Vector3(obj.startingVector[0], obj.startingVector[1], obj.startingVector[2]);
         let currentVector = new THREE.Vector3(obj.currentVector[0], obj.currentVector[1], obj.currentVector[2]);
@@ -67,25 +72,30 @@ function held(palmX, palmY, palmZ, indexX, indexY, indexZ, data, obj, landmark)
     }
 }
 
+/**
+ * handsfree.data.hands.landmarks[i][0] -> wrist
+ * handsfree.data.hands.landmarks[i][1] -> thumb
+ */
+
 // Right hand
 handsfree.on('finger-pinched-start-1-0', (data) => {
-    let palmX = handsfree.data.hands.landmarks[1][0].x;
-    let palmY = handsfree.data.hands.landmarks[1][0].y;
-    let palmZ = handsfree.data.hands.landmarks[1][0].z;
-    let indexX = handsfree.data.hands.landmarks[1][4].x; 
-    let indexY = handsfree.data.hands.landmarks[1][4].y; 
-    let indexZ = handsfree.data.hands.landmarks[1][4].z; 
-    start(palmX, palmY, palmZ, indexX, indexY, indexZ, data, "right");
+    let wristX = handsfree.data.hands.landmarks[1][0].x;
+    let wristY = handsfree.data.hands.landmarks[1][0].y;
+    let wristZ = handsfree.data.hands.landmarks[1][0].z;
+    let thumbX = handsfree.data.hands.landmarks[1][4].x;
+    let thumbY = handsfree.data.hands.landmarks[1][4].y;
+    let thumbZ = handsfree.data.hands.landmarks[1][4].z;
+    start(wristX, wristY, wristZ, thumbX, thumbY, thumbZ, data, "right");
 });
 
 handsfree.on('finger-pinched-held-1-0', (data) => {
-    let palmX = handsfree.data.hands.landmarks[1][0].x;
-    let palmY = handsfree.data.hands.landmarks[1][0].y;
-    let palmZ = handsfree.data.hands.landmarks[1][0].z;
-    let indexX = handsfree.data.hands.landmarks[1][4].x; 
-    let indexY = handsfree.data.hands.landmarks[1][4].y;
-    let indexZ = handsfree.data.hands.landmarks[1][4].z;
-    held(palmX, palmY, palmZ, indexX, indexY, indexZ, data, rightHandObj, handsfree.data.hands.landmarks[1][8].z);
+    let wristX = handsfree.data.hands.landmarks[1][0].x;
+    let wristY = handsfree.data.hands.landmarks[1][0].y;
+    let wristZ = handsfree.data.hands.landmarks[1][0].z;
+    let thumbX = handsfree.data.hands.landmarks[1][4].x; 
+    let thumbY = handsfree.data.hands.landmarks[1][4].y;
+    let thumbZ = handsfree.data.hands.landmarks[1][4].z;
+    held(wristX, wristY, wristZ, thumbX, thumbY, thumbZ, data, rightHandObj, handsfree.data.hands.landmarks[1][8].z);
 });
 
 handsfree.on('finger-pinched-released-1-0', (data) => {    
@@ -99,23 +109,23 @@ handsfree.on('finger-pinched-released-1-0', (data) => {
 
 // Left hand
 handsfree.on('finger-pinched-start-0-0', (data) => {
-    let palmX = handsfree.data.hands.landmarks[0][0].x;
-    let palmY = handsfree.data.hands.landmarks[0][0].y;
-    let palmZ = handsfree.data.hands.landmarks[0][0].z;
-    let indexX = handsfree.data.hands.landmarks[0][4].x;
-    let indexY = handsfree.data.hands.landmarks[0][4].y;
-    let indexZ = handsfree.data.hands.landmarks[0][4].z;
-    start(palmX, palmY, palmZ, indexX, indexY, indexZ, data, "left");
+    let wristX = handsfree.data.hands.landmarks[0][0].x;
+    let wristY = handsfree.data.hands.landmarks[0][0].y;
+    let wristZ = handsfree.data.hands.landmarks[0][0].z;
+    let thumbX = handsfree.data.hands.landmarks[0][4].x;
+    let thumbY = handsfree.data.hands.landmarks[0][4].y;
+    let thumbZ = handsfree.data.hands.landmarks[0][4].z;
+    start(wristX, wristY, wristZ, thumbX, thumbY, thumbZ, data, "left");
 });
 
 handsfree.on('finger-pinched-held-0-0', (data) => { 
-    let palmX = handsfree.data.hands.landmarks[0][0].x;
-    let palmY = handsfree.data.hands.landmarks[0][0].y;
-    let palmZ = handsfree.data.hands.landmarks[0][0].z;
-    let indexX = handsfree.data.hands.landmarks[0][4].x;
-    let indexY = handsfree.data.hands.landmarks[0][4].y;
-    let indexZ = handsfree.data.hands.landmarks[0][4].z;
-    held(palmX, palmY, palmZ, indexX, indexY, indexZ, data, leftHandObj, handsfree.data.hands.landmarks[0][8].z);
+    let wristX = handsfree.data.hands.landmarks[0][0].x;
+    let wristY = handsfree.data.hands.landmarks[0][0].y;
+    let wristZ = handsfree.data.hands.landmarks[0][0].z;
+    let thumbX = handsfree.data.hands.landmarks[0][4].x;
+    let thumbY = handsfree.data.hands.landmarks[0][4].y;
+    let thumbZ = handsfree.data.hands.landmarks[0][4].z;
+    held(wristX, wristY, wristZ, thumbX, thumbY, thumbZ, data, leftHandObj, handsfree.data.hands.landmarks[0][8].z);
 });
 
 handsfree.on('finger-pinched-released-0-0', (data) => {

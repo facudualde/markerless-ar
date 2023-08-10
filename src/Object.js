@@ -1,6 +1,6 @@
 export default class Object
 {
-    static set = [];
+    static gltfObjects = [];
     static i = 0;
     constructor(id, aframePosX, aframePosY, aframePosZ, src)
     {
@@ -28,10 +28,6 @@ export default class Object
         this.arrayX = [0,0,0];
         this.arrayY = [0,0,0];
         this.arrayZ = [0,0,0];
-
-        this.hola1 = [0,0,0];
-        this.hola2 = [0,0,0];
-        this.hola3 = [0,0,0];
         
         this.aframePos = null;
         this.currentVector = [0, 0, 0];
@@ -39,7 +35,7 @@ export default class Object
         this.box3 = new THREE.Box3();
         this.go = false
 
-        Object.set[Object.i] = this;
+        Object.gltfObjects[Object.i] = this;
         Object.i++;
     }
 
