@@ -1,4 +1,4 @@
-import Object from './Object.js';
+import Gltf from './gltfHandler.js';
 
 const handsfree = new Handsfree({hands: {
     enabled: true,
@@ -17,12 +17,12 @@ let leftHandObj = null;
 function start(palmX, palmY, palmZ, indexX, indexY, indexZ, data, hand)
 {
     let flag = false;
-    for(let k = 0; k < Object.set.length && flag === false; k++)
+    for(let k = 0; k < Gltf.gltfObjects.length && flag === false; k++)
     {
-        const obj = Object.set[k];
+        const obj = Gltf.gltfObjects[k];
         obj.box3.setFromObject(obj.element.object3D);
         let handsfreePosZ = 1/obj.element.getAttribute('position').z;
-        let aframePos = Object.conversion(data.curPinch.x, data.curPinch.y, handsfreePosZ);
+        let aframePos = Gltf.conversion(data.curPinch.x, data.curPinch.y, handsfreePosZ);
         if( (aframePos[0] > obj.box3.min.x && aframePos[0] < obj.box3.max.x) && (aframePos[1] > obj.box3.min.y && aframePos[1] < obj.box3.max.y) && obj.go === false )
         {
             obj.startingVector = [indexX - palmX, indexY - palmY, indexZ - palmZ];
@@ -42,16 +42,16 @@ function held(palmX, palmY, palmZ, indexX, indexY, indexZ, data, obj, landmark)
     {
         // --- Position ---
         // Conversion from handsfree coordinates to aframe coordinates
-        obj.pos = Object.conversion(data.curPinch.x, data.curPinch.y, data.curPinch.z);
+        obj.pos = Gltf.conversion(data.curPinch.x, data.curPinch.y, data.curPinch.z);
         
-        // Check if object's position is too far behind or too far ahead
+        // Check if Gltf's position is too far behind or too far ahead
         if(obj.pos[2] < -15 || obj.pos[2] > 0)
         {
             obj.pos[2] = -13;
-            obj.pos = Object.conversion(data.curPinch.x, data.curPinch.y, 1/obj.pos[2]);
+            obj.pos = Gltf.conversion(data.curPinch.x, data.curPinch.y, 1/obj.pos[2]);
         }
 
-        let p = Object.average(obj.arrayX, obj.arrayY, obj.arrayZ, obj.pos);
+        let p = Gltf.average(obj.arrayX, obj.arrayY, obj.arrayZ, obj.pos);
         obj.element.setAttribute('position', String(p[0]) + " " + String(p[1]) + " " + String(p[2]));
 
         // --- Rotation ---
@@ -65,7 +65,7 @@ function held(palmX, palmY, palmZ, indexX, indexY, indexZ, data, obj, landmark)
         let line = new THREE.Vector3();
         line.crossVectors(startingVector, currentVector);
         line.normalize();
-        Object.rotateOnWorldAxis(obj.element.object3D, line, Number(localStorage.getItem("rotationSpeed")) * angle);
+        Gltf.rotateOnWorldAxis(obj.element.object3D, line, Number(localStorage.getItem("rotationSpeed")) * angle);
         obj.startingVector[0] = obj.currentVector[0];
         obj.startingVector[1] = obj.currentVector[1];
         obj.startingVector[2] = obj.currentVector[2];

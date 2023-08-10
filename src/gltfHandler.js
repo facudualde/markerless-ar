@@ -1,4 +1,4 @@
-export default class Object
+export default class Gltf
 {
     static gltfObjects = [];
     static i = 0;
