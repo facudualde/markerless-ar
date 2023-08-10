@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <!-- Include Handsfree.js -->
+    <link rel="stylesheet" href="./src/handsfree/handsfree.css"/>
+    <script src="./src/handsfree/handsfree.js"></script>
+    <!--AFRAME-->
+    <script src="./src/aframe/aframe.min.js"></script>
+    <script src="./src/aframe/aframe-ar.js"></script>
+    <script src="./src/aframe/aframe-extras.min.js"></script>
+</head>
+<body style="margin: 0; overflow: hidden;">
+    <a-scene vr-mode-ui="enabled: false" renderer="logarithmicDepthBuffer: true;" embedded arjs id="scene" gltf-model="dracoDecoderPath: ./src/draco/; meshoptDecoderPath: https://unpkg.com/meshoptimizer@0.16.0/meshopt_decoder.js;">
+        <a-entity camera id="camera"></a-entity>
+    </a-scene>
+</body>
+<script src="./src/Main.js" type="module"></script>
+</html>
