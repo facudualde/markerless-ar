@@ -12,9 +12,9 @@
 </head>
 <body style="margin: 0; overflow: hidden;">
     <a-scene vr-mode-ui="enabled: false" renderer="logarithmicDepthBuffer: true;" embedded arjs id="scene" gltf-model="dracoDecoderPath: ./src/draco/; meshoptDecoderPath: https://unpkg.com/meshoptimizer@0.16.0/meshopt_decoder.js;">
-        <div id="assets"></div>
+        <a-assets id="assets"></a-assets>
         <a-entity camera id="camera"></a-entity>
     </a-scene>
 </body>
-<script src="./src/markerless-ar.js" type="module"></script>
+<script src="./test.js" type="module"></script>
 </html>

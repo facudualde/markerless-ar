@@ -4,26 +4,17 @@ export default class Gltf
     static i = 0;
     constructor(id, aframePosX, aframePosY, aframePosZ, src)
     {
-        this.assets = document.createElement("div");
-        document.getElementById("scene").appendChild(this.assets);
+        const assets = document.getElementById("assets");
         
-        for(let i = 0; i < src.length; i++)
-        {
-            const assetItem = document.createElement("a-asset-item");
-            assetItem.setAttribute("id", id + "_" + i);
-            assetItem.setAttribute("src", src[i]);
-            this.assets.appendChild(assetItem);
-        }
+        this.assetItem = document.createElement("a-asset-item");
+        this.assetItem.setAttribute("id", id + "_" + Gltf.i);
+        this.assetItem.setAttribute("src", src);
+        assets.appendChild(this.assetItem);
 
         this.element = document.createElement("a-entity");
+        this.element.setAttribute("gltf-model", "#" + id + "_" + Gltf.i);
         this.element.setAttribute("position", String(aframePosX) + ' ' + String(aframePosY) + ' ' + String(aframePosZ));
-        document.getElementById("scene").appendChild(this.element);
-        for(let i = 0; i < src.length; i++)
-        {
-            const child = document.createElement("a-entity");
-            child.setAttribute("gltf-model", "#" + id + "_" + i);
-            this.element.appendChild(child); 
-        }
+        document.getElementById("scene").appendChild(this.element); 
 
         this.arrayX = [0,0,0];
         this.arrayY = [0,0,0];
@@ -35,8 +26,8 @@ export default class Gltf
         this.box3 = new THREE.Box3();
         this.go = false
 
-        Object.gltfObjects[Object.i] = this;
-        Object.i++;
+        Gltf.gltfObjects[Gltf.i] = this;
+        Gltf.i++;
     }
 
     static _q1 = new THREE.Quaternion();
@@ -58,7 +49,7 @@ export default class Gltf
         return [aframePosX, aframePosY, aframePosZ];
     }
 
-    static average(vectorX, vectorY, vectorZ, pos) //modificar
+    static average(vectorX, vectorY, vectorZ, pos)
     {
         vectorX[0] = vectorX[1];
         vectorX[1] = vectorX[2];
@@ -81,20 +72,7 @@ export default class Gltf
 
     delete()
     {
-        let child = this.assets.lastElementChild;
-        while(child)
-        {
-            this.assets.removeChild(child);
-            child = this.assets.lastElementChild;
-        }
-        this.assets.remove();
-
-        child = this.element.lastElementChild;
-        while(child)
-        {
-            this.element.removeChild(child);
-            child = this.element.lastElementChild;
-        }
+        this.assetItem.remove();
         this.element.remove();
     }
 
