@@ -142,7 +142,7 @@ handsfree.on('finger-pinched-released-0-0', (data) => {
     }
 });
 
-const main = () =>
+const flipVideo = () =>
 {
     const head = document.getElementsByTagName('head')[0];
 
@@ -152,4 +152,4 @@ const main = () =>
     head.appendChild(style);
 }
 
-main();
+flipVideo();
