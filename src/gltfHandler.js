@@ -41,6 +41,7 @@ export default class Gltf
         return object_;
     }
 
+    // Conversion from handsfree coordinates to aframe coordinates
     static conversion(handsfreePosX, handsfreePosY, handsfreePosZ)
     {
         let aframePosZ = 1/handsfreePosZ;
@@ -49,7 +50,9 @@ export default class Gltf
         return [aframePosX, aframePosY, aframePosZ];
     }
 
-    static average(vectorX, vectorY, vectorZ, pos)
+    // This function calculates the average position of the pinched object
+    // in order to smooth it
+    static average_position(vectorX, vectorY, vectorZ, pos)
     {
         vectorX[0] = vectorX[1];
         vectorX[1] = vectorX[2];

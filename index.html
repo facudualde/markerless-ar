@@ -11,10 +11,13 @@
     <script src="./src/aframe/aframe-extras.min.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
+    <!-- This configuration of the a-scene label is necessary so everything can work,
+    I suggest you to use this file as a template -->
     <a-scene vr-mode-ui="enabled: false" renderer="logarithmicDepthBuffer: true;" embedded arjs id="scene" gltf-model="dracoDecoderPath: ./src/draco/; meshoptDecoderPath: https://unpkg.com/meshoptimizer@0.16.0/meshopt_decoder.js;">
         <a-assets id="assets"></a-assets>
         <a-entity camera id="camera"></a-entity>
     </a-scene>
 </body>
+<!-- You can change this section as you like -->
 <script src="./test.js" type="module"></script>
 </html>

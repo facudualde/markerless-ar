@@ -14,7 +14,9 @@ handsfree.start();
 let rightHandObj = null;
 let leftHandObj = null;
 
-function start(palmX, palmY, palmZ, indexX, indexY, indexZ, data, hand)
+const ROTATION_SPEED = 1; // Change this constant to increment the rotation speed
+
+const pinch_start = (wristX, wristY, wristZ, thumbX, thumbY, thumbZ, data, hand) =>
 {
     let flag = false;
     for(let k = 0; k < Gltf.gltfObjects.length && flag === false; k++)
@@ -25,7 +27,7 @@ function start(palmX, palmY, palmZ, indexX, indexY, indexZ, data, hand)
         let aframePos = Gltf.conversion(data.curPinch.x, data.curPinch.y, handsfreePosZ);
         if( (aframePos[0] > obj.box3.min.x && aframePos[0] < obj.box3.max.x) && (aframePos[1] > obj.box3.min.y && aframePos[1] < obj.box3.max.y) && obj.go === false )
         {
-            obj.startingVector = [indexX - palmX, indexY - palmY, indexZ - palmZ];
+            obj.startingVector = [thumbX - wristX, thumbY - wristY, thumbZ - wristZ];
             obj.go = true;
             if(hand === "right")
                 rightHandObj = obj;
@@ -36,7 +38,7 @@ function start(palmX, palmY, palmZ, indexX, indexY, indexZ, data, hand)
     }
 }
 
-function held(palmX, palmY, palmZ, indexX, indexY, indexZ, data, obj, landmark)
+const pinch_held = (wristX, wristY, wristZ, thumbX, thumbY, thumbZ, data, obj) =>
 {
     if(obj !== null)
     {
@@ -44,18 +46,21 @@ function held(palmX, palmY, palmZ, indexX, indexY, indexZ, data, obj, landmark)
         // Conversion from handsfree coordinates to aframe coordinates
         obj.pos = Gltf.conversion(data.curPinch.x, data.curPinch.y, data.curPinch.z);
         
-        // Check if Gltf's position is too far behind or too far ahead
+        // Check if Gltf's Z position is too far behind or too far ahead, if true then
+        // sets it to -13 and recalculates the conversion
         if(obj.pos[2] < -15 || obj.pos[2] > 0)
         {
             obj.pos[2] = -13;
             obj.pos = Gltf.conversion(data.curPinch.x, data.curPinch.y, 1/obj.pos[2]);
         }
 
-        let p = Gltf.average(obj.arrayX, obj.arrayY, obj.arrayZ, obj.pos);
+        // Used it to smooth the object's position when pinched
+        let p = Gltf.average_position(obj.arrayX, obj.arrayY, obj.arrayZ, obj.pos);
+        
         obj.element.setAttribute('position', String(p[0]) + " " + String(p[1]) + " " + String(p[2]));
 
         // --- Rotation ---
-        obj.currentVector = [indexX - palmX, indexY - palmY, indexZ - palmZ];
+        obj.currentVector = [thumbX - wristX, thumbY - wristY, thumbZ - wristZ];
         let startingVector = new THREE.Vector3(obj.startingVector[0], obj.startingVector[1], obj.startingVector[2]);
         let currentVector = new THREE.Vector3(obj.currentVector[0], obj.currentVector[1], obj.currentVector[2]);
         startingVector.normalize();
@@ -65,7 +70,7 @@ function held(palmX, palmY, palmZ, indexX, indexY, indexZ, data, obj, landmark)
         let line = new THREE.Vector3();
         line.crossVectors(startingVector, currentVector);
         line.normalize();
-        Gltf.rotateOnWorldAxis(obj.element.object3D, line, Number(localStorage.getItem("rotationSpeed")) * angle);
+        Gltf.rotateOnWorldAxis(obj.element.object3D, line, ROTATION_SPEED * angle);
         obj.startingVector[0] = obj.currentVector[0];
         obj.startingVector[1] = obj.currentVector[1];
         obj.startingVector[2] = obj.currentVector[2];
@@ -85,7 +90,7 @@ handsfree.on('finger-pinched-start-1-0', (data) => {
     let thumbX = handsfree.data.hands.landmarks[1][4].x;
     let thumbY = handsfree.data.hands.landmarks[1][4].y;
     let thumbZ = handsfree.data.hands.landmarks[1][4].z;
-    start(wristX, wristY, wristZ, thumbX, thumbY, thumbZ, data, "right");
+    pinch_start(wristX, wristY, wristZ, thumbX, thumbY, thumbZ, data, "right");
 });
 
 handsfree.on('finger-pinched-held-1-0', (data) => {
@@ -95,7 +100,7 @@ handsfree.on('finger-pinched-held-1-0', (data) => {
     let thumbX = handsfree.data.hands.landmarks[1][4].x; 
     let thumbY = handsfree.data.hands.landmarks[1][4].y;
     let thumbZ = handsfree.data.hands.landmarks[1][4].z;
-    held(wristX, wristY, wristZ, thumbX, thumbY, thumbZ, data, rightHandObj, handsfree.data.hands.landmarks[1][8].z);
+    pinch_held(wristX, wristY, wristZ, thumbX, thumbY, thumbZ, data, rightHandObj);
 });
 
 handsfree.on('finger-pinched-released-1-0', (data) => {    
@@ -115,7 +120,7 @@ handsfree.on('finger-pinched-start-0-0', (data) => {
     let thumbX = handsfree.data.hands.landmarks[0][4].x;
     let thumbY = handsfree.data.hands.landmarks[0][4].y;
     let thumbZ = handsfree.data.hands.landmarks[0][4].z;
-    start(wristX, wristY, wristZ, thumbX, thumbY, thumbZ, data, "left");
+    pinch_start(wristX, wristY, wristZ, thumbX, thumbY, thumbZ, data, "left");
 });
 
 handsfree.on('finger-pinched-held-0-0', (data) => { 
@@ -125,7 +130,7 @@ handsfree.on('finger-pinched-held-0-0', (data) => {
     let thumbX = handsfree.data.hands.landmarks[0][4].x;
     let thumbY = handsfree.data.hands.landmarks[0][4].y;
     let thumbZ = handsfree.data.hands.landmarks[0][4].z;
-    held(wristX, wristY, wristZ, thumbX, thumbY, thumbZ, data, leftHandObj, handsfree.data.hands.landmarks[0][8].z);
+    pinch_held(wristX, wristY, wristZ, thumbX, thumbY, thumbZ, data, leftHandObj);
 });
 
 handsfree.on('finger-pinched-released-0-0', (data) => {
@@ -137,7 +142,7 @@ handsfree.on('finger-pinched-released-0-0', (data) => {
     }
 });
 
-function init()
+const main = () =>
 {
     const head = document.getElementsByTagName('head')[0];
 
@@ -147,4 +152,4 @@ function init()
     head.appendChild(style);
 }
 
-init();
+main();
