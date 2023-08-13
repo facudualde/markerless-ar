@@ -3,17 +3,17 @@
 <head>
     <meta charset="utf-8">
     <!-- Include Handsfree.js -->
-    <link rel="stylesheet" href="https://unpkg.com/handsfree@8.5.1/build/lib/assets/handsfree.css" />
+    <link rel="stylesheet" href="https://unpkg.com/handsfree@8.5.1/build/lib/assets/handsfree.css"/>
     <script src="https://unpkg.com/handsfree@8.5.1/build/lib/handsfree.js"></script>
     <!-- Include AFRAME.js -->
-    <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+    <script src="https://aframe.io/releases/1.3.0/aframe.min.js"></script>
     <script src="https://raw.githack.com/AR-js-org/AR.js/master/aframe/build/aframe-ar.js"></script>
     <script src="https://cdn.jsdelivr.net/gh/c-frame/aframe-extras@7.0.0/dist/aframe-extras.min.js"></script>
 </head>
 <body style="margin: 0; overflow: hidden;">
     <!-- This configuration of the a-scene label is necessary so everything can work,
     I suggest you to use this file as a template -->
-    <a-scene vr-mode-ui="enabled: false" renderer="logarithmicDepthBuffer: true;" embedded arjs id="scene" gltf-model="dracoDecoderPath: ./src/draco/; meshoptDecoderPath: https://unpkg.com/meshoptimizer@0.16.0/meshopt_decoder.js;">
+    <a-scene vr-mode-ui="enabled: false" renderer="logarithmicDepthBuffer: true;" embedded arjs id="scene" gltf-model="dracoDecoderPath: https://www.gstatic.com/draco/versioned/decoders/1.4.1/; meshoptDecoderPath: https://unpkg.com/meshoptimizer@0.16.0/meshopt_decoder.js;">
         <a-assets id="assets"></a-assets>
         <a-entity camera id="camera"></a-entity>
     </a-scene>
