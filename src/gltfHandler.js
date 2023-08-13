@@ -45,8 +45,8 @@ export default class Gltf
     static conversion(handsfreePosX, handsfreePosY, handsfreePosZ)
     {
         let aframePosZ = 1/handsfreePosZ;
-        let aframePosX = -( aframePosZ/2 + (-aframePosZ) * handsfreePosX );
-        let aframePosY = (-aframePosZ/2 + -aframePosZ * -handsfreePosY);
+        let aframePosX = -(aframePosZ/2 - aframePosZ * handsfreePosX);
+        let aframePosY = (- aframePosZ/2 - aframePosZ * (- handsfreePosY));
         return [aframePosX, aframePosY, aframePosZ];
     }
 
